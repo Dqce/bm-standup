@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/bm-standup/static/css/main.131444a4.css",
+    "main.js": "/bm-standup/static/js/main.a3b0436c.js",
+    "index.html": "/bm-standup/index.html",
+    "main.131444a4.css.map": "/bm-standup/static/css/main.131444a4.css.map",
+    "main.a3b0436c.js.map": "/bm-standup/static/js/main.a3b0436c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.131444a4.css",
+    "static/js/main.a3b0436c.js"
+  ]
+}
