@@ -281,21 +281,27 @@ function App() {
         htmlContent += `</tr>`;
       
 
+      htmlContent += `<tr style="border: 1px solid #000000;">`;
+      htmlContent += `<td style="border: 1px solid #000000; padding: 8px; font-weight: normal !important; font-size: 16px !important; font-family: Arial, sans-serif !important; color: #000000 !important;">General Notes</td>`;
       if (generalNotes.trim()) {
-        htmlContent += `<tr style="border: 1px solid #000000;">`;
-        htmlContent += `<td style="border: 1px solid #000000; padding: 8px; font-weight: normal !important; font-size: 16px !important; font-family: Arial, sans-serif !important; color: #000000 !important;">General Notes</td>`;
         const formattedGeneralNotes = generalNotes.split('\n').map(line => `• ${line}`).join('\n');
         htmlContent += `<td style="border: 1px solid #000000; padding: 8px; white-space: pre-wrap; line-height: 1.2; font-weight: normal !important; font-size: 14px !important; font-family: Arial, sans-serif !important; color: #000000 !important;">${formattedGeneralNotes}</td>`;
-        htmlContent += `</tr>`;
+      } else {
+        htmlContent += `<td style="border: 1px solid #000000; padding: 8px; white-space: pre-wrap; line-height: 1.2; font-weight: normal !important; font-size: 14px !important; font-family: Arial, sans-serif !important; color: #000000 !important;"></td>`;
       }
+      htmlContent += `</tr>`;
       
 
-       teamMembers.forEach((member, index) => {
-         htmlContent += `<tr style="border: 1px solid #000000;">`;
-         htmlContent += `<td style="border: 1px solid #000000; padding: 8px; font-weight: normal !important; font-size: 16px !important; font-family: Arial, sans-serif !important; color: #000000 !important;">${member.name}</td>`;
-         const formattedNotes = member.notes.split('\n').map(line => `• ${line}`).join('\n');
-         htmlContent += `<td style="border: 1px solid #000000; padding: 8px; white-space: pre-wrap; line-height: 1.2; font-weight: normal !important; font-size: 14px !important; font-family: Arial, sans-serif !important; color: #000000 !important;">${formattedNotes}</td>`;
-         htmlContent += `</tr>`;
+       const fixedOrder = ['Jacques', 'Jasper', 'Kamarin', 'Khuanita', 'Jade', 'Hendrik', 'Josh', 'Mohammed', 'Abdurahman', 'James'];
+       fixedOrder.forEach(name => {
+         const member = teamMembers.find(m => m.name === name);
+         if (member) {
+           htmlContent += `<tr style="border: 1px solid #000000;">`;
+           htmlContent += `<td style="border: 1px solid #000000; padding: 8px; font-weight: normal !important; font-size: 16px !important; font-family: Arial, sans-serif !important; color: #000000 !important;">${member.name}</td>`;
+           const formattedNotes = member.notes.split('\n').map(line => `• ${line}`).join('\n');
+           htmlContent += `<td style="border: 1px solid #000000; padding: 8px; white-space: pre-wrap; line-height: 1.2; font-weight: normal !important; font-size: 14px !important; font-family: Arial, sans-serif !important; color: #000000 !important;">${formattedNotes}</td>`;
+           htmlContent += `</tr>`;
+         }
        });
      
 
@@ -324,12 +330,14 @@ function App() {
 
       let plainText = '';
       plainText += `${dateString}\n\n`;
-      if (generalNotes.trim()) {
-        plainText += `General:\n${generalNotes}\n\n`;
-      }
-      plainText += teamMembers
-        .map(member => `${member.name} (${member.roles.join(', ')}):\n${member.notes}`)
-        .join('\n\n');
+      plainText += `General Notes:\n${generalNotes || ''}\n\n`;
+      const fixedOrder = ['Jacques', 'Jasper', 'Kamarin', 'Khuanita', 'Jade', 'Hendrik', 'Josh', 'Mohammed', 'Abdurahman', 'James'];
+      fixedOrder.forEach(name => {
+        const member = teamMembers.find(m => m.name === name);
+        if (member) {
+          plainText += `${member.name} (${member.roles.join(', ')}):\n${member.notes}\n\n`;
+        }
+      });
       navigator.clipboard.writeText(plainText);
     }
     
